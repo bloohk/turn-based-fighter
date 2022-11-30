@@ -65,9 +65,7 @@ def game():
             round_count += 1
             break
 
-<<<<<<< HEAD
+
 print("Console Turn Based Fight v.1.0\n")
 game()
-=======
-game() # lol
->>>>>>> ee28318387c26ed017d65447d9de5cc42f27cdcb
+
