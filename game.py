@@ -1,6 +1,10 @@
 import time 
 import random
 
+# -----------------------------------------------------------------------------------------------------------------------------------------
+# Required
+# -----------------------------------------------------------------------------------------------------------------------------------------
+
 # Player variables
 player_health = 100
 
@@ -12,6 +16,7 @@ ai_health = 100
 test_weapon =["Sword", 20]
 test_weapon2 = ["Club", 30]
 weapons = [test_weapon] # For weapon choice
+
 
 class Player:
     def __init__(self, name, health):
@@ -25,12 +30,20 @@ class Player:
     def ai_turn(self):
         return random.choice(weapons)
 
+# -----------------------------------------------------------------------------------------------------------------------------------------
+# Game system
+# -----------------------------------------------------------------------------------------------------------------------------------------
+
 def play_round(player, enemy):
     if player.name == ai_name: # If player is computer
         print(player.name+"'s turn!")
         enemy.take_dmg(player.ai_turn()[1])
     else: # If player is player lol
         input("player turn")
+
+# -----------------------------------------------------------------------------------------------------------------------------------------
+# Startup
+# -----------------------------------------------------------------------------------------------------------------------------------------
 
 def game():
     plc = Player(input("What is your character called?: "), player_health)
@@ -52,5 +65,9 @@ def game():
             round_count += 1
             break
 
+<<<<<<< HEAD
 print("Console Turn Based Fight v.1.0\n")
 game()
+=======
+game() # lol
+>>>>>>> ee28318387c26ed017d65447d9de5cc42f27cdcb
