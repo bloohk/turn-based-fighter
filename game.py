@@ -10,6 +10,7 @@ ai_health = 100
 
 # Weapons
 test_weapon =["Sword", 20]
+test_weapon2 = ["Club", 30]
 weapons = [test_weapon] # For weapon choice
 
 class Player:
@@ -32,7 +33,6 @@ def play_round(player, enemy):
         input("player turn")
 
 def game():
-    print("Console Turn Based Fight v.1.0\n")
     plc = Player(input("What is your character called?: "), player_health)
     ai = Player(ai_name, ai_health)
 
@@ -52,4 +52,5 @@ def game():
             round_count += 1
             break
 
+print("Console Turn Based Fight v.1.0\n")
 game()
