@@ -15,7 +15,7 @@ ai_health = 100
 # Weapons
 test_weapon =["Sword", 20]
 test_weapon2 = ["Club", 30]
-weapons = [test_weapon] # For weapon choice
+weapons = [test_weapon, test_weapon2] # For weapon choice
 
 
 class Player:
@@ -36,11 +36,27 @@ class Player:
 
 def play_round(player, enemy):
     if player.name == ai_name: # If player is computer
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+player.name+"'s turn!")
+        print("\n"+player.name+"'s turn!")
         enemy.take_dmg(player.ai_turn()[1])
 
     else: # If player is player lol
         print("\n"+player.name+"'s turn!")
+        print("Choose your weapon!")
+        wp1 = random.choice(weapons)
+        wp2 = random.choice(weapons)
+        wp3 = random.choice(weapons)
+        print("1: "+wp1[0]+"\n2: "+wp2[0]+"\n3: "+wp3[0])
+
+        wp_choice = input("Choice: ")
+        if wp_choice == "1":
+            print(player.name+" used "+str(wp1[0])+"!")
+            enemy.take_dmg(wp1[1])
+        elif wp_choice == "2":
+            print(player.name+" used "+str(wp2[0])+"!")
+            enemy.take_dmg(wp2[1])
+        elif wp_choice == "3":
+            print(player.name+" used "+str(wp3[0])+"!")
+            enemy.take_dmg(wp3[1])
         input()
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
