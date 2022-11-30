@@ -36,10 +36,12 @@ class Player:
 
 def play_round(player, enemy):
     if player.name == ai_name: # If player is computer
-        print(player.name+"'s turn!")
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+player.name+"'s turn!")
         enemy.take_dmg(player.ai_turn()[1])
+
     else: # If player is player lol
-        input("player turn")
+        print("\n"+player.name+"'s turn!")
+        input()
 
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # Startup
@@ -51,7 +53,7 @@ def game():
 
     # Round shuffling
     round_count = 1
-    print ("\n---- ROUND "+str(round_count)+" START! ----\n")
+    print ("---- ROUND "+str(round_count)+" START! ----")
     while True:
         play_round(ai, plc)
         if plc.health <= 0:
