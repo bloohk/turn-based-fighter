@@ -44,13 +44,13 @@ class Player:
 def play_round(player, enemy):
     if player.name == ai_name: # If player is computer
         print("\n"+player.name+"'s turn!\n")
-        sleep(1)
+        sleep(2)
         print("You wait in anticipation for "+player.name+"'s attack.")
         enemy.dmg_calc(player.ai_turn(), player)
 
     else: # If player is player lol
         print("\n"+player.name+"'s turn!\n")
-        sleep(1)
+        sleep(2)
         print("Choose your weapon!")
         wp1 = random.choice(weapons)
         wp2 = random.choice(weapons)
