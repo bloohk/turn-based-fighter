@@ -60,16 +60,16 @@ class Player:
                 break
 
         print("1: "+wp1[0]+" - "+wp1[3]+"\n2: "+wp2[0]+" - "+wp2[3]+"\n3: "+wp3[0]+" - "+wp3[3])
-        wp_choice = input("Choice: ")
-        if wp_choice == "1":
-            return wp1
-        elif wp_choice == "2":
-            return wp2
-        elif wp_choice == "3":
-            return wp3
-        
-
-        #return input("Choice (number): ")
+        while True :
+            wp_choice = input("Choice: ")
+            if wp_choice == "1":
+                return wp1
+            elif wp_choice == "2":
+                return wp2
+            elif wp_choice == "3":
+                return wp3
+            else:
+                print("Invalid input. Choose a number between 1 and 3.")
 
     def ai_turn(self):
         return random.choice(weapons)
@@ -84,6 +84,7 @@ def play_round(player, enemy):
         print("\n"+player.name+"'s turn!\n")
         sleep(2)
         print("You wait in anticipation for "+player.name+"'s attack.")
+        sleep(1.5)
         enemy.dmg_calc(player.ai_turn(), player)
 
     else: # If player is player lol
@@ -118,7 +119,7 @@ def game():
         round_count += 1
 
 
-print("Console Turn Based Fight v2.2\n")
+print("Console Turn Based Fight\n")
 sleep(1)
 game()
 
