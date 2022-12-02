@@ -41,7 +41,6 @@ class Player:
         print("------------------------")
 
     def wpn_choice(self, wp_list):
-        #wpn_chosen = []
         print("Choose your weapon!")
         wp1 = random.choice(wp_list)
         while True:
@@ -79,7 +78,6 @@ class Player:
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
 def play_round(player, enemy):
-    wp_list = []
     if player.name == ai_name: # If player is computer
         print("\n"+player.name+"'s turn!\n")
         sleep(2)
