@@ -99,7 +99,7 @@ class Player:
                 print("Invalid input. Choose a number between 1 and 3.")
 
     def ai_turn(self):
-        if random.randint(0, 1) == 0:
+        if random.randint(0, 5) == 0:
             return random.choice(weapons)
         else:
             return elixir
