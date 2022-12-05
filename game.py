@@ -18,9 +18,9 @@ ai_health = 100
 sword =["Sword", 24, 85, "Medium damage, fast."]
 club = ["Club", 30, 70, "Medium-high damage, medium speed"]
 bow = ["Bow", 20, 90, "Low-medium damage, very fast"]
-dagger = ["Dagger", 15, 100, "fLow damage, extremely fast - sure to hit"]
+dagger = ["Dagger", 15, 100, "Low damage, extremely fast - sure to hit"]
 mace = ["Mace", 38, 60, "High damage, slow"]
-fish = ["Massive trout", 45, 50, "Massive damage, very slow"]
+fish = ["Massive trout", 46, 50, "Massive damage, very slow"]
 
 elixir = ["Elixir of life", -30, 100, "Heals for a moderate amount of HP. Can only be used once every 3 player turns."]
 
@@ -34,27 +34,28 @@ class Player:
     def dmg_calc(self, wpn_stats, enemy):
         global cooldown
         global ai_name
-        print("\n"+enemy.name+" used "+str(wpn_stats[0])+"!")
-        dmg_value = wpn_stats[1] =+ float(wpn_stats[1]*random.uniform(0.9, 1.3))
+        dmg_value = wpn_stats[1] =+ float(wpn_stats[1]*random.uniform(0.95, 1.3))
+        print("dmgvalue: "+str(dmg_value))
         dmg_value = int(round(dmg_value))
-        if random.randint(0, 100) <= wpn_stats[2]:
+        if random.randint(1, 100) <= wpn_stats[2]:
             if dmg_value > 0:
+                print("\n"+enemy.name+" attacks with "+str(wpn_stats[0])+"!")
                 self.health -= dmg_value
-                print(self.name +" took "+str(dmg_value)+" damage!\n"+self.name+" now has "+str(self.health)+" health left.")
+                print(self.name +" took "+str(dmg_value)+" damage and now has "+str(self.health)+" health left.")
                 if enemy.name != ai_name:
-                    print("cooldown -1")
+                    #print("cooldown -1")
                     cooldown -= 1
             else:
                 enemy.health -= dmg_value
+                print("\n"+enemy.name+" used "+str(wpn_stats[0])+"!")
                 print(enemy.name+" healed for "+str(-dmg_value)+". They now have "+str(enemy.health)+"!")
                 if enemy.name != ai_name:
-                    print("#cooldown +3")
+                    #print("#cooldown +3")
                     cooldown += 3
         else:
             print(enemy.name+" missed! No damage.")
             if enemy.name != ai_name:
                 cooldown -= 1
-        print("------------------------")
 
     def wpn_choice(self, wp_list, elixir):
         global cooldown
@@ -100,9 +101,9 @@ class Player:
 
     def ai_turn(self):
         if random.randint(0, 5) == 0:
-            return random.choice(weapons)
-        else:
             return elixir
+        else:
+            return random.choice(weapons)
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # Game system
 # -----------------------------------------------------------------------------------------------------------------------------------------
@@ -114,8 +115,11 @@ def play_round(player, enemy):
         print("You wait in anticipation for "+player.name+"'s attack.")
         sleep(1.5)
         enemy.dmg_calc(player.ai_turn(), player)
+        print("--------------------------------------------")
 
     else: # If player is player lol
+        print("\n"+player.name +" : "+str(player.health)+" HP")
+        print(enemy.name +" : "+str(enemy.health)+" HP")
         print("\n"+player.name+"'s turn!\n")
         sleep(2)
         enemy.dmg_calc(player.wpn_choice(weapons, elixir), player)
@@ -138,18 +142,18 @@ def game():
             print("You won!")
             input()
             break
-        print(cooldown)
         if cooldown < 0:
             cooldown = 0
+        #print(cooldown)
 
         play_round(ai, plc)
         if plc.health <= 0:
             print("You died.")
-            input("")
+            input()
             break
-        print(cooldown)
         if cooldown < 0:
             cooldown = 0
+        #print(cooldown)
 
 
 print("Console Turn Based Fight\n")
