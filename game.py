@@ -5,14 +5,14 @@ import random
 # Required
 # -----------------------------------------------------------------------------------------------------------------------------------------
 
-cooldown = 0
-
 # Player variables
 player_health = 100
+pl_cooldown = 0
 
 # Enemy variables
 ai_name = "Computer"
 ai_health = 100
+ai_cooldown = 0
 
 # Weapons
 sword =["Sword", 24, 85, "Medium damage, fast."]
@@ -32,10 +32,10 @@ class Player:
         self.health = health
 
     def dmg_calc(self, wpn_stats, enemy):
-        global cooldown
+        global pl_cooldown
         global ai_name
         dmg_value = wpn_stats[1] =+ float(wpn_stats[1]*random.uniform(0.95, 1.3))
-        print("dmgvalue: "+str(dmg_value))
+        #print("dmgvalue: "+str(dmg_value))
         dmg_value = int(round(dmg_value))
         if random.randint(1, 100) <= wpn_stats[2]:
             if dmg_value > 0:
@@ -44,21 +44,21 @@ class Player:
                 print(self.name +" took "+str(dmg_value)+" damage and now has "+str(self.health)+" health left.")
                 if enemy.name != ai_name:
                     #print("cooldown -1")
-                    cooldown -= 1
+                    pl_cooldown -= 1
             else:
                 enemy.health -= dmg_value
                 print("\n"+enemy.name+" used "+str(wpn_stats[0])+"!")
                 print(enemy.name+" healed for "+str(-dmg_value)+". They now have "+str(enemy.health)+"!")
                 if enemy.name != ai_name:
                     #print("#cooldown +3")
-                    cooldown += 3
+                    pl_cooldown += 3
         else:
             print(enemy.name+" missed! No damage.")
             if enemy.name != ai_name:
-                cooldown -= 1
+                pl_cooldown -= 1
 
     def wpn_choice(self, wp_list, elixir):
-        global cooldown
+        global pl_cooldown
         print("Choose your weapon!")
         wp1 = random.choice(wp_list)
         while True:
@@ -77,10 +77,10 @@ class Player:
                 break
 
         print("1: "+wp1[0]+" - "+wp1[3]+"\n2: "+wp2[0]+" - "+wp2[3]+"\n3: "+wp3[0]+" - "+wp3[3])
-        if cooldown == 0:
+        if pl_cooldown == 0:
             print("4: "+elixir[0]+" - "+elixir[3])
         else:
-            print("4: "+elixir[0]+" - On cooldown for another "+str(cooldown)+" rounds.")
+            print("4: "+elixir[0]+" - On cooldown for another "+str(pl_cooldown)+" rounds.")
 
         while True :
             wp_choice = input("Choice: ")
@@ -92,18 +92,36 @@ class Player:
             elif wp_choice == "3":
                 return wp3
             elif wp_choice == "4":
-                if cooldown == 0:
+                if pl_cooldown == 0:
                     return elixir
                 else:
-                    print("Can't use elixir for another "+str(cooldown)+" rounds.")
+                    print("Can't use elixir for another "+str(pl_cooldown)+" rounds.")
             else:
                 print("Invalid input. Choose a number between 1 and 3.")
 
     def ai_turn(self):
-        if random.randint(0, 5) == 0:
-            return elixir
-        else:
+        global ai_cooldown
+        if ai_cooldown > 0:
+            ai_cooldown -= 1
             return random.choice(weapons)
+        else:
+            if self.health < player_health/2:
+                if random.randint(1, 3):
+                    ai_cooldown += 3
+                    return elixir
+                else:
+                    ai_cooldown -= 1
+                    return random.choice(weapons)
+            elif self.health < player_health/4:
+                ai_cooldown += 3
+                return elixir
+            else:
+                if random.randint(1, 20) != 20:
+                    ai_cooldown -= 1
+                    return random.choice(weapons)
+                else:
+                    ai_cooldown += 3
+                    return elixir
 # -----------------------------------------------------------------------------------------------------------------------------------------
 # Game system
 # -----------------------------------------------------------------------------------------------------------------------------------------
@@ -131,7 +149,8 @@ def play_round(player, enemy):
 def game():
     plc = Player(input("What is your character called?: "), player_health)
     ai = Player(ai_name, ai_health)
-    global cooldown
+    global pl_cooldown
+    global ai_cooldown
 
     # Round shuffling
     #round_count = 1
@@ -140,23 +159,27 @@ def game():
         play_round(plc, ai)
         if ai.health <= 0:
             print("You won!")
-            input()
             break
-        if cooldown < 0:
-            cooldown = 0
-        #print(cooldown)
+        
+        if pl_cooldown < 0:
+            pl_cooldown = 0
+        elif ai_cooldown < 0:
+            ai_cooldown = 0
+        #print("ai cooldown: "+str(ai_cooldown))
+        #print("pl cooldown: "+str(pl_cooldown))
 
         play_round(ai, plc)
         if plc.health <= 0:
             print("You died.")
-            input()
             break
-        if cooldown < 0:
-            cooldown = 0
-        #print(cooldown)
-
+        if pl_cooldown < 0:
+            pl_cooldown = 0
+        elif ai_cooldown < 0:
+            ai_cooldown = 0
+        #print("ai cooldown: "+str(ai_cooldown))
+        #print("pl cooldown: "+str(pl_cooldown))
 
 print("Console Turn Based Fight\n")
 sleep(1)
 game()
-
+input()
