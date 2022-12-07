@@ -22,7 +22,7 @@ dagger = ["Dagger", 15, 100, "Low damage, extremely fast - sure to hit"]
 mace = ["Mace", 38, 60, "High damage, slow"]
 fish = ["Massive trout", 46, 50, "Massive damage, very slow"]
 
-elixir = ["Elixir of life", -30, 100, "Heals for a moderate amount of HP. Can only be used once every 3 player turns."]
+elixir = ["Elixir of life", -25, 100, "Heals for a moderate amount of HP. Can only be used once every 3 player turns."]
 
 weapons = [sword, bow, club, dagger, mace, fish] # For weapon choice
 
@@ -34,8 +34,8 @@ class Player:
     def dmg_calc(self, wpn_stats, enemy):
         global pl_cooldown
         global ai_name
-        dmg_value = wpn_stats[1] =+ float(wpn_stats[1]*random.uniform(0.95, 1.3))
-        #print("dmgvalue: "+str(dmg_value))
+        dmg_value = float(wpn_stats[1]*random.uniform(0.9, 1.3))
+        print("dmgvalue: "+str(dmg_value))
         dmg_value = int(round(dmg_value))
         if random.randint(1, 100) <= wpn_stats[2]:
             if dmg_value > 0:
@@ -53,7 +53,7 @@ class Player:
                     #print("#cooldown +3")
                     pl_cooldown += 3
         else:
-            print(enemy.name+" missed! No damage.")
+            print(enemy.name+ " used "+wpn_stats[0]+", but missed! No damage.")
             if enemy.name != ai_name:
                 pl_cooldown -= 1
 
